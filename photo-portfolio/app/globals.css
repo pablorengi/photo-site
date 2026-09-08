@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f1eee8;
+  --foreground: #24221e;
+  --muted: #6f6a61;
+  --line: #d8d2c8;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.portfolio-shell {
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 48px clamp(20px, 5vw, 76px) 72px;
+}
+
+.portfolio-header {
+  align-items: end;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 32px;
+  justify-content: space-between;
+  padding-bottom: 32px;
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  margin: 0 0 16px;
+  text-transform: uppercase;
+}
+
+.portfolio-header h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.5rem, 6vw, 5.8rem);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.94;
+  margin: 0;
+  max-width: 780px;
+}
+
+.portfolio-intro {
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0 0 4px;
+  max-width: 220px;
+}
+
+.photo-grid {
+  column-count: 3;
+  column-gap: 20px;
+  padding-top: 32px;
+}
+
+.photo-card {
+  break-inside: avoid;
+  margin: 0 0 32px;
+}
+
+.photo-image {
+  background: #d9d3c9;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.photo-caption {
+  padding-top: 12px;
+}
+
+.photo-caption h2 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.photo-caption p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin: 5px 0 0;
+}
+
+.empty-state {
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  margin-top: 32px;
+  padding: 48px 0;
+}
+
+.empty-state p {
+  margin: 0;
+}
+
+.empty-state p + p {
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .photo-grid {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 620px) {
+  .portfolio-shell {
+    padding-top: 28px;
+  }
+
+  .portfolio-header {
+    align-items: start;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .portfolio-intro {
+    max-width: 280px;
+  }
+
+  .photo-grid {
+    column-count: 1;
+  }
+}
