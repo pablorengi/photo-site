@@ -2,8 +2,8 @@ import Image from 'next/image'
 
 import {defineQuery} from 'next-sanity'
 
-import {client} from '../src/sanity/client'
-import {urlFor} from '../src/sanity/image'
+import {client} from '../sanity/client'
+import {urlFor} from '../sanity/image'
 
 type Photo = {
   _id: string
