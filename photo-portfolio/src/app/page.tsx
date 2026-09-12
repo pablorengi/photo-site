@@ -1,18 +1,18 @@
-import Image from 'next/image'
+import Image from 'next/image';
 
-import {defineQuery} from 'next-sanity'
+import { defineQuery } from 'next-sanity';
 
-import {client} from '../sanity/client'
-import {urlFor} from '../sanity/image'
+import { client } from '../sanity/client';
+import { urlFor } from '../sanity/image';
 
 type Photo = {
-  _id: string
-  title: string
-  description?: string
+  _id: string;
+  title: string;
+  description?: string;
   image: {
-    asset: {_ref: string}
-  }
-}
+    asset: { _ref: string };
+  };
+};
 
 const PHOTOS_QUERY = defineQuery(`
   *[_type == "photo"] | order(coalesce(publishedAt, _createdAt) desc) {
@@ -23,10 +23,10 @@ const PHOTOS_QUERY = defineQuery(`
       asset
     }
   }
-`)
+`);
 
 export default async function Home() {
-  const photos = await client.fetch<Photo[]>(PHOTOS_QUERY)
+  const photos = await client.fetch<Photo[]>(PHOTOS_QUERY);
 
   return (
     <main className="portfolio-shell">
@@ -66,5 +66,5 @@ export default async function Home() {
         </section>
       )}
     </main>
-  )
+  );
 }

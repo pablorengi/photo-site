@@ -44,7 +44,7 @@ body {
 }
 
 .portfolio-header h1 {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(2.5rem, 6vw, 5.8rem);
   font-weight: 400;
   letter-spacing: 0;

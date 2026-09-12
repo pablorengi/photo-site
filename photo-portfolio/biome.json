@@ -30,7 +30,8 @@
   },
   "css": {
     "parser": {
-        "cssModules":true
+      "cssModules": true,
+      "tailwindDirectives": true
     }
   },
   "javascript": {
@@ -49,5 +50,5 @@
         "organizeImports": "on"
       }
     }
-  },
+  }
 }
