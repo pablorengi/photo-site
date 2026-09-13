@@ -1,3 +1,3 @@
-import {photo} from './photo'
+import { photo } from './photo';
 
-export const schemaTypes = [photo]
+export const schemaTypes = [photo];
