@@ -44,7 +44,7 @@ export const photo = defineType({
       name: 'people',
       title: 'People',
       type: 'array',
-      of: [{ type: 'reference', to: { type: 'person' } }],
+      of: [{ type: 'reference', to: [{ type: 'person' }] }],
     }),
     defineField({
       name: 'camera',
