@@ -15,7 +15,7 @@ export const person = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: 'name' },
+      options: { source: 'name', maxLength: 96 },
       validation: (rule) => rule.required(),
     }),
   ],

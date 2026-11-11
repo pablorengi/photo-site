@@ -5,6 +5,10 @@ import { defineQuery } from 'next-sanity';
 import { client } from '../sanity/client';
 import { urlFor } from '../sanity/image';
 
+// Re-fetch from Sanity at most once a minute, so newly published photos
+// appear without a redeploy.
+export const revalidate = 60;
+
 type Photo = {
   _id: string;
   title: string;
@@ -12,6 +16,13 @@ type Photo = {
   image: {
     asset: { _ref: string };
   };
+  year?: number;
+  camera?: string;
+  medium?: 'film' | 'digital';
+  format?: '35mm' | '120';
+  filmStock?: string;
+  location?: string;
+  people?: { _id: string; name: string; slug?: { current: string } }[];
 };
 
 const PHOTOS_QUERY = defineQuery(`
@@ -21,7 +32,14 @@ const PHOTOS_QUERY = defineQuery(`
     description,
     image {
       asset
-    }
+    },
+    year,
+    camera,
+    medium,
+    format,
+    filmStock,
+    location,
+    people[]->{ _id, name, slug }
   }
 `);
 
@@ -55,6 +73,31 @@ export default async function Home() {
               <div className="photo-caption">
                 <h2>{photo.title}</h2>
                 {photo.description && <p>{photo.description}</p>}
+                {(() => {
+                  const details = [
+                    photo.location,
+                    photo.year,
+                    photo.camera,
+                    photo.medium === 'film'
+                      ? [photo.filmStock ?? 'Film', photo.format]
+                          .filter(Boolean)
+                          .join(' ')
+                      : photo.medium === 'digital'
+                        ? 'Digital'
+                        : undefined,
+                  ].filter(Boolean);
+                  return details.length > 0 ? (
+                    <p className="photo-details">{details.join(' · ')}</p>
+                  ) : null;
+                })()}
+                {photo.people && photo.people.length > 0 && (
+                  <p className="photo-people">
+                    {photo.people
+                      .filter(Boolean)
+                      .map((person) => person.name)
+                      .join(', ')}
+                  </p>
+                )}
               </div>
             </article>
           ))}
