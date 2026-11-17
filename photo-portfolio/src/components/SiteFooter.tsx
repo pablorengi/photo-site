@@ -1,7 +1,6 @@
 import Link from 'next/link';
-
-import type { SocialLink } from '../sanity/queries';
-import type { NavLink } from './SiteHeader';
+import type { NavLink } from '@/components/SiteHeader';
+import type { SocialLink } from '@/sanity/queries';
 
 type Props = {
   siteName: string;

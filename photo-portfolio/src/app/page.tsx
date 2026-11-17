@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
-import { shortCaption } from '../components/PhotoMeta';
-import { SanityPicture } from '../components/SanityPicture';
-import { client } from '../sanity/client';
-import { HOME_QUERY, type Photo, photoSequence, type SiteSettings } from '../sanity/queries';
+import { shortCaption } from '@/components/PhotoMeta';
+import { SanityPicture } from '@/components/SanityPicture';
+import { client } from '@/sanity/client';
+import { HOME_QUERY, type Photo, photoSequence, type SiteSettings } from '@/sanity/queries';
 
 type HomeData = {
   settings: SiteSettings | null;

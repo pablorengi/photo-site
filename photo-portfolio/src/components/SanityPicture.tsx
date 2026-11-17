@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
-import { urlFor } from '../sanity/image';
-import type { SanityImage } from '../sanity/queries';
+import { urlFor } from '@/sanity/image';
+import type { SanityImage } from '@/sanity/queries';
 
 type Props = {
   image: SanityImage;

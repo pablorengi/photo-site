@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PortableText } from 'next-sanity';
 
-import { SanityPicture } from '../../components/SanityPicture';
-import { client } from '../../sanity/client';
-import { PAGE_QUERY, PAGE_SLUGS_QUERY, type Page, type SiteSettings } from '../../sanity/queries';
+import { SanityPicture } from '@/components/SanityPicture';
+import { client } from '@/sanity/client';
+import { PAGE_QUERY, PAGE_SLUGS_QUERY, type Page, type SiteSettings } from '@/sanity/queries';
 
 type Params = Promise<{ slug: string }>;
 type PageData = {

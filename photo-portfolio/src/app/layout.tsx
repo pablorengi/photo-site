@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Archivo, Courier_Prime, IBM_Plex_Mono } from 'next/font/google';
-import { SiteFooter } from '../components/SiteFooter';
-import { type NavLink, SiteHeader } from '../components/SiteHeader';
-import { client } from '../sanity/client';
-import { LAYOUT_QUERY, type SiteSettings } from '../sanity/queries';
+import { SiteFooter } from '@/components/SiteFooter';
+import { type NavLink, SiteHeader } from '@/components/SiteHeader';
+import { client } from '@/sanity/client';
+import { LAYOUT_QUERY, type SiteSettings } from '@/sanity/queries';
 import './globals.css';
 
 // Re-fetch from Sanity at most once a minute, so published changes appear

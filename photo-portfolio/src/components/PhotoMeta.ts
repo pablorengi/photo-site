@@ -1,4 +1,4 @@
-import type { Photo } from '../sanity/queries';
+import type { Photo } from '@/sanity/queries';
 
 /** "Ektachrome 120", "Film 35mm", "Digital", or undefined. */
 export function mediumLabel(photo: Photo): string | undefined {

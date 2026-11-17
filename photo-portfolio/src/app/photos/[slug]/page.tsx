@@ -1,17 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { PhotoKeyboardNav } from '@/components/PhotoKeyboardNav';
+import { mediumLabel } from '@/components/PhotoMeta';
+import { SanityPicture } from '@/components/SanityPicture';
 import { client } from '@/sanity/client';
-import { PhotoKeyboardNav } from '../../../components/PhotoKeyboardNav';
-import { mediumLabel } from '../../../components/PhotoMeta';
-import { SanityPicture } from '../../../components/SanityPicture';
-import { urlFor } from '../../../sanity/image';
-import {
-  PHOTO_SLUGS_QUERY,
-  type Photo,
-  photoSequence,
-  SEQUENCE_QUERY,
-} from '../../../sanity/queries';
+import { urlFor } from '@/sanity/image';
+import { PHOTO_SLUGS_QUERY, type Photo, photoSequence, SEQUENCE_QUERY } from '@/sanity/queries';
 
 type Params = Promise<{ slug: string }>;
 type SequenceData = { featured: (Photo | null)[] | null; all: Photo[] };
