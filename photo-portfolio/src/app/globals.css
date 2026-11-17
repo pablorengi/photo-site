@@ -591,8 +591,7 @@ a {
   background: transparent;
 }
 
-.lightbox-counter,
-.lightbox-close {
+.lightbox-counter {
   font-family: var(--font-meta-stack);
   font-size: 0.8rem;
   letter-spacing: 0.08em;
@@ -606,21 +605,34 @@ a {
   padding: 8px 0;
 }
 
+/* 44px hit area around a 24px ×, aligned with the counter's baseline row. */
 .lightbox-close {
+  align-items: center;
   background: none;
   border: 0;
   color: var(--inverse-fg);
   cursor: pointer;
-  padding: 8px 0;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  margin: -10px -10px 0 0;
+  opacity: 0.8;
+  padding: 0;
   position: absolute;
   right: var(--lightbox-pad);
   top: var(--lightbox-pad);
+  transition: opacity 150ms ease;
+  width: 44px;
   z-index: 1;
 }
 
-.lightbox-close:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.lightbox-close:hover,
+.lightbox-close:focus-visible {
+  opacity: 1;
+}
+
+.lightbox-close svg {
+  display: block;
 }
 
 .lightbox-figure {
@@ -703,7 +715,8 @@ a {
 
 @media (prefers-reduced-motion: reduce) {
   .photo-tile-image,
-  .lightbox-nav {
+  .lightbox-nav,
+  .lightbox-close {
     transition: none;
   }
 }

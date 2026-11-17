@@ -50,8 +50,10 @@ export function PhotoLightbox({ children }: { children: ReactNode }) {
   return (
     // biome-ignore lint/a11y/useKeyWithClickEvents: Esc closes via the dialog's cancel event
     <dialog ref={dialogRef} className="lightbox" aria-label="Photo viewer" onClick={onClick}>
-      <button type="button" className="lightbox-close" onClick={close}>
-        Close
+      <button type="button" className="lightbox-close" onClick={close} aria-label="Close">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+          <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" strokeWidth="1.5" />
+        </svg>
       </button>
       {children}
     </dialog>
