@@ -48,7 +48,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({
+  children,
+  modal,
+}: Readonly<{
+  children: React.ReactNode;
+  /** The photo lightbox (app/@modal), when a photo is opened from the grid. */
+  modal: React.ReactNode;
+}>) {
   const { settings, pageSlugs } = await client.fetch<LayoutData>(LAYOUT_QUERY);
   const siteName = settings?.siteName ?? DEFAULT_SITE_NAME;
   const socialLinks = settings?.socialLinks ?? [];
@@ -75,6 +82,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           socialLinks={socialLinks}
           email={settings?.email}
         />
+        {modal}
       </body>
     </html>
   );

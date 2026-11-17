@@ -1,38 +1,17 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { PhotoDetails } from '@/components/PhotoDetails';
 import { PhotoKeyboardNav } from '@/components/PhotoKeyboardNav';
-import { mediumLabel } from '@/components/PhotoMeta';
 import { SanityPicture } from '@/components/SanityPicture';
-import { client } from '@/sanity/client';
 import { urlFor } from '@/sanity/image';
-import { PHOTO_SLUGS_QUERY, type Photo, photoSequence, SEQUENCE_QUERY } from '@/sanity/queries';
+import { getPhotoSlugs, loadPhoto, photoHref } from '@/sanity/photos';
 
 type Params = Promise<{ slug: string }>;
-type SequenceData = { featured: (Photo | null)[] | null; all: Photo[] };
 
 export async function generateStaticParams() {
-  const slugs = await client.fetch<string[]>(PHOTO_SLUGS_QUERY);
+  const slugs = await getPhotoSlugs();
   return slugs.map((slug) => ({ slug }));
-}
-
-/**
- * The photo plus its neighbours. Prev/next follow the home grid's order; a
- * photo that isn't featured falls back to the order of all photos.
- */
-async function loadPhoto(slug: string) {
-  const data = await client.fetch<SequenceData>(SEQUENCE_QUERY);
-  let sequence = photoSequence(data);
-  if (!sequence.some((photo) => photo.slug === slug)) sequence = data.all;
-  const index = sequence.findIndex((photo) => photo.slug === slug);
-  if (index === -1) return null;
-  return {
-    photo: sequence[index],
-    index,
-    total: sequence.length,
-    prev: sequence[index - 1],
-    next: sequence[index + 1],
-  };
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
@@ -49,32 +28,23 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   };
 }
 
+/**
+ * Standalone photo page: what you get from a shared link or a refresh. Clicks
+ * from the grid are intercepted and shown in the lightbox instead
+ * (see app/@modal/(.)photos).
+ */
 export default async function PhotoPage({ params }: { params: Params }) {
   const { slug } = await params;
   const result = await loadPhoto(slug);
   if (!result) notFound();
   const { photo, index, total, prev, next } = result;
 
-  const details: [string, string | undefined][] = [
-    ['Location', photo.location],
-    ['Year', photo.year?.toString()],
-    ['Camera', photo.camera],
-    ['Medium', mediumLabel(photo)],
-    [
-      'People',
-      photo.people
-        ?.filter(Boolean)
-        .map((person) => person.name)
-        .join(', ') || undefined,
-    ],
-  ];
-
-  const prevHref = prev && `/photos/${prev.slug}`;
-  const nextHref = next && `/photos/${next.slug}`;
+  const prevHref = prev && photoHref(prev);
+  const nextHref = next && photoHref(next);
 
   return (
     <article className="photo-view">
-      <PhotoKeyboardNav prev={prevHref} next={nextHref} />
+      <PhotoKeyboardNav mode="page" prev={prevHref} next={nextHref} />
 
       <div className="photo-view-bar">
         <Link href="/#work" className="text-link">
@@ -98,34 +68,17 @@ export default async function PhotoPage({ params }: { params: Params }) {
 
       <div className="photo-view-info">
         <h1 className="section-title">{photo.title}</h1>
-        <dl className="photo-details">
-          {details
-            .filter((entry): entry is [string, string] => Boolean(entry[1]))
-            .map(([label, value]) => (
-              <div key={label}>
-                <dt>{label}</dt>
-                <dd>{value}</dd>
-              </div>
-            ))}
-        </dl>
+        <PhotoDetails photo={photo} />
         {photo.description && <p className="photo-description">{photo.description}</p>}
       </div>
 
+      {/*
+        Plain <a> on purpose: a client-side navigation to another /photos/ URL
+        would be intercepted and open the lightbox on top of this page.
+      */}
       <nav className="photo-view-pager" aria-label="Photos">
-        {prevHref ? (
-          <Link href={prevHref} rel="prev">
-            ← {prev.title}
-          </Link>
-        ) : (
-          <span />
-        )}
-        {nextHref ? (
-          <Link href={nextHref} rel="next">
-            {next.title} →
-          </Link>
-        ) : (
-          <span />
-        )}
+        {prevHref ? <a href={prevHref}>← {prev.title}</a> : <span />}
+        {nextHref ? <a href={nextHref}>{next.title} →</a> : <span />}
       </nav>
     </article>
   );

@@ -66,7 +66,8 @@ export default async function Home() {
           <ul className="photo-grid">
             {photos.map((photo, index) => (
               <li key={photo._id}>
-                <Link href={`/photos/${photo.slug}`} className="photo-tile">
+                {/* scroll={false}: the photo opens in the lightbox over the grid */}
+                <Link href={`/photos/${photo.slug}`} scroll={false} className="photo-tile">
                   <SanityPicture
                     image={photo.image}
                     alt={photo.image.alt ?? photo.title}
